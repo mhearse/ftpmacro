@@ -40,6 +40,8 @@ while (my $line = <MACROFILE>)
    }
 }
 
+close MACROFILE or die "Can't close $macrofile!\n";;
+
 my $ftp = Net::FTP->new($contents{hostname}, Debug => $contents{debug}, Passive => $contents{passive})
   or die "Cannot connect to ftp server: " . $contents{hostname} . "$@";
  
@@ -57,9 +59,11 @@ foreach my $key (sort grep { /^cmd\d+/ } keys %contents)
 
       printf("%s: %s %s output: \n%s\n", $key, $cmd1, $cmd2, join ",\n", @results);
    }
-
-   $ftp->$cmd1($cmd2)
-      or die "Error running command: $cmd1 $cmd2 ", $ftp->message();
+   else
+   {
+      $ftp->$cmd1($cmd2)
+         or die "Error running command: $cmd1 $cmd2 ", $ftp->message();
+   }
 }
  
 $ftp->quit();
