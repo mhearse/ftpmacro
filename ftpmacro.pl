@@ -34,7 +34,18 @@ open MACROFILE, $macrofile or die "Can't open $macrofile!\n";
 while (my $line = <MACROFILE>)
 {
    chomp $line;
-   if ($line =~ /(\w+)\s?:\s?(.*)/)
+
+   if (!$line)
+   {
+      # Skip blank lines.
+      next;
+   }
+   elsif ($line =~ /^#/)
+   {
+      # Skip comments.
+      next;
+   }
+   elsif ($line =~ /(\w+)\s?:\s?(.*)/)
    {
       $contents{$1} = $2;
    }
