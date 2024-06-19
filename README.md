@@ -1,2 +1,2 @@
 # ftpmacro
-Macros for Net::FTP
+Macros for Perl Net::FTP
